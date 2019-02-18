@@ -60,7 +60,7 @@ public class BigInt {
 			if (num.firstOneBigger(this)) {
 				result = this.subtractHelper(num);
 				result.sign = false;
-			
+
 			}
 			else
 				result = this.subtractHelper(num);
@@ -70,7 +70,7 @@ public class BigInt {
 			if (this.firstOneBigger(num)) {
 				result = this.subtractHelper(num);
 				result.sign = false;
-			
+
 			}
 			else
 				result = this.subtractHelper(num);
@@ -98,7 +98,7 @@ public class BigInt {
 			else  {
 				result = this.subtractHelper(num);
 				result.sign = false;
-		
+
 			}
 		}		
 		else if(num.sign && !this.sign) {	
@@ -129,28 +129,53 @@ public class BigInt {
 			inferior = num.BigNum.size();
 			ultimateSize = this.BigNum.size();
 			for (int i = 0 ; i < inferior; i++) {
-				for (int j = 0 ; j < ultimateSize; j++) {
-					digit = this.BigNum.get(j) * num.BigNum.get(i) + carryOver;
-					
-					if (j == ultimateSize - 1) {
-						digit = this.BigNum.get(j) * num.BigNum.get(i) + carryOver;
-						//System.out.println(digit);
-						if (digit > 9) {
-							
-							temp.add(digit % 10);
-							//System.out.println(temp.get(j));
 
+				for (int j = 0 ; j < ultimateSize; j++) {
+
+					digit = this.BigNum.get(j) * num.BigNum.get(i) + carryOver;
+					System.out.println(digit);
+					carryOver = 0;
+					
+					if (i>0) {
+
+						
+						if (j == ultimateSize -1 ) {
+
+							if (digit > 9) {
+
+								temp.set(j+i,digit % 10);
+								temp.add(0);
+								temp.set(j+i+1,digit / 10);
+
+							}
+						}
+						else if (digit > 9) {
+							temp.set(j+i,digit % 10);
+							carryOver = digit / 10;
+							System.out.println();
+						}
+
+						else {
+							temp.set(j+i,digit);
+							carryOver = 0;
+						}
+						digit = 0;
+					}
+					
+					else if (j == ultimateSize -1 ) {
+
+						if (digit > 9) {
+
+							temp.add(digit % 10);
 							temp.add(digit / 10);
-							//break;
-//							temp.set(j, digit % 10 );
-//							temp.set(j+1, digit / 10);
+
 						}
 					}
-					else if (digit > 10) {
+					else if (digit > 9) {
 						temp.add(digit % 10);
 						carryOver = digit / 10;
 					}
-					
+
 					else {
 						temp.add(digit);
 						carryOver = 0;
@@ -158,21 +183,21 @@ public class BigInt {
 					digit = 0;
 				}
 				System.out.println(temp);
-				//System.out.println(digit);
 
 			}
-			
+
 		}
 		else {
 			ultimateSize = this.BigNum.size();
-			//inferior = num.BigNum.size();
-		}
 
-		for (int i = 0 ; i < ultimateSize; i++) {
-			for (int j = 0 ; j < ultimateSize; j++) {
-				
+
+			for (int i = 0 ; i < ultimateSize; i++) {
+				for (int j = 0 ; j < ultimateSize; j++) {
+
+				}
 			}
 		}
+		result.BigNum = temp;
 		return result;
 	}
 
@@ -276,23 +301,23 @@ public class BigInt {
 	}
 
 	private void removeAllZeros() {
-			for (int i = this.BigNum.size()-1; i >= 0; i--) { 
-				if (this.BigNum.get(i) == 0) {
-					if (i == 0) {
-						if (this.BigNum.get(i) == 0) {
-						}		
+		for (int i = this.BigNum.size()-1; i >= 0; i--) { 
+			if (this.BigNum.get(i) == 0) {
+				if (i == 0) {
+					if (this.BigNum.get(i) == 0) {
 					}		
+				}		
 
-					else {
-						this.BigNum.remove(i);					
-				
-					}
+				else {
+					this.BigNum.remove(i);					
+
 				}
-				else 
-					break;
 			}
+			else 
+				break;
 		}
-	
+	}
+
 
 	private boolean firstOneBigger(BigInt num) {
 		boolean isGreater = false;
