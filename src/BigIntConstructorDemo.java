@@ -15,5 +15,6 @@
 	    	b2 = new BigInt("24");
 	    	b3 = b1.multiplyHelper(b2);
 	    	System.out.println(b3);
+	    	d
 	    }
 	}
