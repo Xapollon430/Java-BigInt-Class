@@ -1,34 +1,33 @@
-import java.util.Scanner;
 import java.util.ArrayList;
 public class BigInt {
 
-	private ArrayList<Integer> bigNum = new ArrayList<Integer>();
+	private ArrayList<Integer> BigNum = new ArrayList<Integer>();
 	private boolean positive;
 	private static boolean isValid;
 
 	public BigInt() {
-		setbigNum("0");
+		setBigNum("0");
 	}
 
 	// Object Constructor
 	public BigInt(BigInt b){
 		String result = "";
-		for (int i = b.bigNum.size()-1; i >= 0 ; i--) {
-			result += Integer.toString(b.bigNum.get(i));
+		for (int i = b.BigNum.size()-1; i >= 0 ; i--) {
+			result += Integer.toString(b.BigNum.get(i));
 		}
-		setbigNum(result);
+		setBigNum(result);
 		this.positive = b.positive;
 	}
 
 	//Integer Constructor
 	public BigInt(int num) {
 		String number = Integer.toString(num);
-		setbigNum(number);
+		setBigNum(number);
 	}
 
 	// String Constructor
 	public BigInt(String num) {
-		setbigNum(num);
+		setBigNum(num);
 	}
 
 	// ArrayList Constructor
@@ -37,13 +36,13 @@ public class BigInt {
 		for (int i = list.size()-1; i >= 0 ; i--) {
 			result += Integer.toString(list.get(i));
 		}
-		setbigNum(result);
+		setBigNum(result);
 	}
 
-	private void setbigNum(String num) {
+	private void setBigNum(String num) {
 		//this.num = num;
-		if (isValid(num)) {
-			this.setpositive(num);
+		if (isItTrue(num)) {
+			this.makePositive(num);
 			this.toArrayList(num);		
 		}
 		else { 
@@ -60,7 +59,7 @@ public class BigInt {
 		}
 
 		else if(!num.positive && this.positive) {
-			if (num.isGreaterEqual(this)) {
+			if (num.isItBigger(this)) {
 				result = this.subtractHelper(num);
 				result.positive = false;//result.num = "-" + result.num;
 				//System.out.println("sssssss");
@@ -70,7 +69,7 @@ public class BigInt {
 		}
 
 		else if(num.positive && !this.positive) {
-			if (this.isGreaterEqual(num)) {
+			if (this.isItBigger(num)) {
 				result = this.subtractHelper(num);
 				result.positive = false;//result.num = "-" + result.num;
 				//System.out.println("sssssss");
@@ -83,7 +82,7 @@ public class BigInt {
 		}
 		else
 			result = this.addHelper(num);
-		if (result.bigNum.get(0) == 0 && result.bigNum.size() == 1) {
+		if (result.BigNum.get(0) == 0 && result.BigNum.size() == 1) {
 			result.positive = true;
 			//System.out.println("sssssss");
 		}
@@ -95,29 +94,29 @@ public class BigInt {
 		BigInt result = new BigInt();
 		ArrayList <Integer> temp = new ArrayList <Integer>();
 		int digit = 0;
-		if(this.bigNum.size() <= num.bigNum.size()) {
-			digit = num.bigNum.size() - this.bigNum.size();
+		if(this.BigNum.size() <= num.BigNum.size()) {
+			digit = num.BigNum.size() - this.BigNum.size();
 			for (int i = 0; i < digit; i++) {
-				this.bigNum.add(0);
+				this.BigNum.add(0);
 			}
 		}
-		else if(this.bigNum.size() > num.bigNum.size()) {
-			digit = this.bigNum.size() - num.bigNum.size();
+		else if(this.BigNum.size() > num.BigNum.size()) {
+			digit = this.BigNum.size() - num.BigNum.size();
 			for (int i = 0; i < digit; i++) {
-				num.bigNum.add(0);
+				num.BigNum.add(0);
 			}
 		}
-		for (int i = 0; i < num.bigNum.size(); i++) {
-			temp.add(this.bigNum.get(i) + num.bigNum.get(i));	
+		for (int i = 0; i < num.BigNum.size(); i++) {
+			temp.add(this.BigNum.get(i) + num.BigNum.get(i));	
 		}
-		result.bigNum = temp;
+		result.BigNum = temp;
 		result.sortArrayListAdd();
 		return result;
 	}
 
 	public BigInt subtract(BigInt num){
 		BigInt result = new BigInt();
-		if (this.bigNum.size() == 1 && this.bigNum.get(0) == 0) {
+		if (this.BigNum.size() == 1 && this.BigNum.get(0) == 0) {
 			if (num.positive) {
 				result = new BigInt(this);
 				result.positive = false;
@@ -138,7 +137,7 @@ public class BigInt {
 		}
 
 		else if(!num.positive && !this.positive) {		
-			if (num.isGreaterEqual(this))
+			if (num.isItBigger(this))
 				result = this.subtractHelper(num);
 			else  {
 				result = this.subtractHelper(num);
@@ -152,7 +151,7 @@ public class BigInt {
 		}
 
 		else if (num.positive && this.positive) {
-			if (this.isGreaterEqual(num)) {
+			if (this.isItBigger(num)) {
 				result = this.subtractHelper(num);
 			}
 			else {
@@ -160,7 +159,7 @@ public class BigInt {
 				result.positive = false;//result.num = "-" + result.num;
 			}
 		}
-		if (result.bigNum.size()==1 && result.bigNum.get(0) == 0)
+		if (result.BigNum.size()==1 && result.BigNum.get(0) == 0)
 			result.positive = true;
 		return result;
 	}
@@ -169,42 +168,42 @@ public class BigInt {
 		BigInt result = new BigInt();
 		ArrayList <Integer> temp = new ArrayList <Integer>();
 		int digit = 0;
-		if(this.bigNum.size() <= num.bigNum.size()) {
-			digit = num.bigNum.size() - this.bigNum.size();
+		if(this.BigNum.size() <= num.BigNum.size()) {
+			digit = num.BigNum.size() - this.BigNum.size();
 			for (int i = 0; i < digit; i++) {
-				this.bigNum.add(0);
+				this.BigNum.add(0);
 			}
 		}
-		else if(this.bigNum.size() > num.bigNum.size()) {
-			digit = this.bigNum.size() - num.bigNum.size();
+		else if(this.BigNum.size() > num.BigNum.size()) {
+			digit = this.BigNum.size() - num.BigNum.size();
 			for (int i = 0; i < digit; i++) {
-				num.bigNum.add(0);
+				num.BigNum.add(0);
 			}
 		}
-		if (this.isGreaterEqual(num)) {
-			for (int i = 0; i < this.bigNum.size(); i++) {
-				if (this.bigNum.get(i) - num.bigNum.get(i) < 0) {
-					this.bigNum.set(i, this.bigNum.get(i)+10 );
-					temp.add(this.bigNum.get(i) - num.bigNum.get(i));
-					this.bigNum.set(i+1, this.bigNum.get(i+1)-1 );
+		if (this.isItBigger(num)) {
+			for (int i = 0; i < this.BigNum.size(); i++) {
+				if (this.BigNum.get(i) - num.BigNum.get(i) < 0) {
+					this.BigNum.set(i, this.BigNum.get(i)+10 );
+					temp.add(this.BigNum.get(i) - num.BigNum.get(i));
+					this.BigNum.set(i+1, this.BigNum.get(i+1)-1 );
 				}
 				else
-					temp.add(this.bigNum.get(i) - num.bigNum.get(i));		
+					temp.add(this.BigNum.get(i) - num.BigNum.get(i));		
 			}
 		}
-		else if (!this.isGreaterEqual(num)) {
-			for (int i = 0; i < num.bigNum.size(); i++) {
-				if (num.bigNum.get(i) - this.bigNum.get(i) < 0) {
-					//digit = this.bigNum.get(i)+10;
-					num.bigNum.set(i, num.bigNum.get(i)+10 );
-					temp.add(num.bigNum.get(i) - this.bigNum.get(i));
-					num.bigNum.set(i+1, num.bigNum.get(i+1)-1 );
+		else if (!this.isItBigger(num)) {
+			for (int i = 0; i < num.BigNum.size(); i++) {
+				if (num.BigNum.get(i) - this.BigNum.get(i) < 0) {
+					//digit = this.BigNum.get(i)+10;
+					num.BigNum.set(i, num.BigNum.get(i)+10 );
+					temp.add(num.BigNum.get(i) - this.BigNum.get(i));
+					num.BigNum.set(i+1, num.BigNum.get(i+1)-1 );
 				}
 				else
-					temp.add(num.bigNum.get(i) - this.bigNum.get(i));		
+					temp.add(num.BigNum.get(i) - this.BigNum.get(i));		
 			}
 		}
-		else if(this.bigNum.equals(num.bigNum))
+		else if(this.BigNum.equals(num.BigNum))
 			temp.add(0);
 		result = new BigInt(temp);
 		result.removeZero();
@@ -214,12 +213,12 @@ public class BigInt {
 	public BigInt multiply (BigInt num) {
 		BigInt result = new BigInt ();
 		
-		if ((this.bigNum.size() == 1 && this.bigNum.get(0) == 0) || (num.bigNum.size() == 1 && num.bigNum.get(0) == 0)  ) {			
+		if ((this.BigNum.size() == 1 && this.BigNum.get(0) == 0) || (num.BigNum.size() == 1 && num.BigNum.get(0) == 0)  ) {			
 			result = new BigInt("0");
 			result.positive = true;
 			//System.out.println("ssss");
 		}
-		else if (this.isGreaterEqual(num)) {
+		else if (this.isItBigger(num)) {
 			result = this.multiplyHelper(num);
 			if ((this.positive && num.positive) || (!this.positive && !num.positive))
 				result.positive = true;
@@ -247,14 +246,14 @@ public class BigInt {
 		ArrayList <Integer> temp = new ArrayList <Integer>();
 		int digit = 0;
 		int carryOver = 0;
-		for (int i = 0 ; i < num.bigNum.size(); i++) {
+		for (int i = 0 ; i < num.BigNum.size(); i++) {
 			if (i > 0 ) {
 				for (int k = 0; k < i; k++)
 					temp.add(0);
 			}
-			for (int j = 0 ; j < this.bigNum.size(); j++) {
-				digit = this.bigNum.get(j) * num.bigNum.get(i) + carryOver;
-				if (j == this.bigNum.size() - 1) {
+			for (int j = 0 ; j < this.BigNum.size(); j++) {
+				digit = this.BigNum.get(j) * num.BigNum.get(i) + carryOver;
+				if (j == this.BigNum.size() - 1) {
 					if (digit > 9) {
 						temp.add(digit % 10);
 						temp.add(digit / 10);
@@ -275,7 +274,7 @@ public class BigInt {
 				digit = 0;
 			}
 			carryOver = 0;
-			tempResult.bigNum = temp;
+			tempResult.BigNum = temp;
 			temp = new ArrayList <Integer>();
 			result = result.add(tempResult);
 			tempResult = new BigInt();
@@ -284,25 +283,25 @@ public class BigInt {
 	}
 
 	private void sortArrayListAdd(){
-		for (int i = 0 ; i < this.bigNum.size(); i++) {
-			if(i == this.bigNum.size()-1) {
-				if(this.bigNum.get(i) > 9)
-					this.bigNum.add(0);
+		for (int i = 0 ; i < this.BigNum.size(); i++) {
+			if(i == this.BigNum.size()-1) {
+				if(this.BigNum.get(i) > 9)
+					this.BigNum.add(0);
 			}
 
-			if(this.bigNum.get(i) > 9) {
-				this.bigNum.set(i, this.bigNum.get(i)%10 );
-				this.bigNum.set(i+1, this.bigNum.get(i+1)+1 );
+			if(this.BigNum.get(i) > 9) {
+				this.BigNum.set(i, this.BigNum.get(i)%10 );
+				this.BigNum.set(i+1, this.BigNum.get(i+1)+1 );
 			}
 			else 
-				this.bigNum.set(i, this.bigNum.get(i));
+				this.BigNum.set(i, this.BigNum.get(i));
 		}
 	}
 	
 	public BigInt divideBy(BigInt num) {
 		BigInt result = new BigInt ();
 		
-		if (this.isGreaterEqual(num)) {
+		if (this.isItBigger(num)) {
 			result = this.divideHelper(num);
 			if ((this.positive && num.positive) || (!this.positive && !num.positive))
 				result.positive = true;
@@ -314,7 +313,7 @@ public class BigInt {
 			result = new BigInt ("0");
 			result.positive = true;
 		}
-		if (result.bigNum.size() == 1 && result.bigNum.get(0) == 0)
+		if (result.BigNum.size() == 1 && result.BigNum.get(0) == 0)
 			result.positive = true;
 		return result;
 	}
@@ -324,16 +323,16 @@ public class BigInt {
 		BigInt temp = new BigInt();
 		BigInt temp2 = new BigInt (this);
 		BigInt partialAnswer = new BigInt();
-		if (num.bigNum.size() == 1 && num.bigNum.get(0) == 0)
+		if (num.BigNum.size() == 1 && num.BigNum.get(0) == 0)
 			throw new BadStringInput(" / by zero");
 		else
-			while (temp2.isGreaterEqual(num)){
+			while (temp2.isItBigger(num)){
 				
 				partialAnswer = temp2.divideHelper2(num);
 				
 				temp = temp2.subtractHelper(temp2.divideHelper2(num).multiplyHelper(num));
 				
-				temp2.bigNum = temp.bigNum;
+				temp2.BigNum = temp.BigNum; 
 				
 				result = result.addHelper(partialAnswer);
 			}
@@ -344,7 +343,7 @@ public class BigInt {
 		
 		BigInt result = new BigInt();
 		
-		int n = this.bigNum.size() - num.bigNum.size();
+		int n = this.BigNum.size() - num.BigNum.size();
 		
 		if (n <= 1 )
 			
@@ -356,11 +355,11 @@ public class BigInt {
 				
 				if (i == n-2)
 					
-					result.bigNum.add(1);	
+					result.BigNum.add(1);	
 				
 				else
 					
-					result.bigNum.add(0);
+					result.BigNum.add(0);
 				
 			}
 		}
@@ -371,11 +370,11 @@ public class BigInt {
 		
 		BigInt result = new BigInt ();
 		
-		if (num.bigNum.size() == 1 && num.bigNum.get(0) == 0)
+		if (num.BigNum.size() == 1 && num.BigNum.get(0) == 0)
 			
 			throw new BadStringInput(" / by zero");
 		
-		else if (this.bigNum.size() == 1 && this.bigNum.get(0) == 0) {
+		else if (this.BigNum.size() == 1 && this.BigNum.get(0) == 0) {
 			
 			result = new BigInt("0");
 			
@@ -383,7 +382,7 @@ public class BigInt {
 			
 		}
 			
-		else if (this.isGreaterEqual(num)) {
+		else if (this.isItBigger(num)) {
 			
 			result = this.modulusHelper(num);
 			
@@ -428,22 +427,22 @@ public class BigInt {
 
 
 	private void removeZero() {
-		if (this.bigNum.size() == 1) {
+		if (this.BigNum.size() == 1) {
 			//System.out.println("num issssssssss "+this.num);
 		}
 		else {
-			for (int i = this.bigNum.size()-1; i >= 0; i--) { 
-				if (this.bigNum.get(i) == 0) {
+			for (int i = this.BigNum.size()-1; i >= 0; i--) { 
+				if (this.BigNum.get(i) == 0) {
 					if (i == 0) {
-						if (this.bigNum.get(i) == 0) {
+						if (this.BigNum.get(i) == 0) {
 							//System.out.println("num issssssssss "+this.num);
 						}		
 					}		
 
 					else {
 						//this.num = (this.num.substring(1));
-						this.bigNum.remove(i);					
-						// System.out.println(this.bigNum.size());
+						this.BigNum.remove(i);					
+						// System.out.println(this.BigNum.size());
 						//System.out.println("num is "+this.num);
 					}
 				}
@@ -453,34 +452,34 @@ public class BigInt {
 		}
 	}
 
-	private boolean isGreaterEqual(BigInt num) {
+	private boolean isItBigger(BigInt num) {
 		boolean isGreater = false;
-		if (this.bigNum.size() == num.bigNum.size()) {
-			for (int i = num.bigNum.size()-1; i >= 0; i--) {
+		if (this.BigNum.size() == num.BigNum.size()) {
+			for (int i = num.BigNum.size()-1; i >= 0; i--) {
 
-				if (this.bigNum.get(i) == num.bigNum.get(i)) {
+				if (this.BigNum.get(i) == num.BigNum.get(i)) {
 					isGreater = true;
 				}
 
-				else if(this.bigNum.get(i) > num.bigNum.get(i)) {
+				else if(this.BigNum.get(i) > num.BigNum.get(i)) {
 					isGreater = true;
 					break;
 				}
 
-				else if(this.bigNum.get(i) < num.bigNum.get(i)) {
+				else if(this.BigNum.get(i) < num.BigNum.get(i)) {
 					isGreater = false;
 					break;
 				}
 			}
 		}
-		else if(this.bigNum.size() > num.bigNum.size())
+		else if(this.BigNum.size() > num.BigNum.size())
 			isGreater = true;
-		else if(this.bigNum.size() < num.bigNum.size())
+		else if(this.BigNum.size() < num.BigNum.size())
 			isGreater = false;
 		return isGreater;
 	}
 
-	private boolean isValid(String num) {
+	private boolean isItTrue(String num) {
 
 		if (num.length() == 1) {
 			if (!Character.isDigit(num.charAt(0)))
@@ -514,12 +513,12 @@ public class BigInt {
 		if(num.charAt(0) == '+' || num.charAt(0) == '-') {
 			num = num.substring(1);
 			for (int i = num.length(); i > 0 ; i--) {
-				bigNum.add(Integer.parseInt(num.substring(i-1, i)));
+				BigNum.add(Integer.parseInt(num.substring(i-1, i)));
 			}
 		}		
 		else		
 			for (int i = num.length(); i > 0 ; i--) {
-				bigNum.add(Integer.parseInt(num.substring(i-1, i)));
+				BigNum.add(Integer.parseInt(num.substring(i-1, i)));
 			}
 	}
 
@@ -530,7 +529,7 @@ public class BigInt {
 		return super.equals(arg0);
 	}
 
-	private void setpositive(String num) {
+	private void makePositive(String num) {
 		if (num.charAt(0) == '-')
 			this.positive = false;
 		else
@@ -540,8 +539,8 @@ public class BigInt {
 	public String toString() {
 		String result = "";
 		this.removeZero();
-		for (int i = bigNum.size(); i > 0 ; i--) {
-			result += Integer.toString(bigNum.get(i-1));
+		for (int i = BigNum.size(); i > 0 ; i--) {
+			result += Integer.toString(BigNum.get(i-1));
 		}
 		if (!this.positive)
 			return "-" + result;
