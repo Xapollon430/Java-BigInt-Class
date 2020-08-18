@@ -9,7 +9,7 @@ public class BigInt {
 		setBigNum("0");
 	}
 
-	// Object Constructor
+	// Object Constructor in Java
 	public BigInt(BigInt b){
 		String result = "";
 		for (int i = b.BigNum.size()-1; i >= 0 ; i--) {
